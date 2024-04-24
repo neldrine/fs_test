@@ -6,6 +6,7 @@
 - I would have used laravel form requests if I had more time and kept the logic separate
 - Total time to complete ~1 hr
 - Note: Some Images 404 on the other endpoints
+- Todo: Writing Unit Tests
 
 **GET - api/rover**
 	- Requires an Authorization key
