@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use GuzzleHttp\Client;
@@ -8,7 +9,6 @@ class NasaService
 {
     private $client;
 
-    // construct the guzzle client
     public function __construct()
     {
         $this->client = new Client([
@@ -17,18 +17,33 @@ class NasaService
         ]);
     }
 
-    // Fetches photos from a Mars Rover - accepts rover type and page
-    public function getRoverPhoto($rover, $page)
+    // Fetches photos from Mars Rovers
+    public function getRoverPhotos($rovers, $page = 1)
+    {
+        $results = [];
+
+        // ['Curiosity', 'Opportunity', 'Spirit']
+        $rovers = (array) $rovers; // Ensure $rovers is always an array - refactored so we can pass 1, 2 or all rovers
+
+        foreach ($rovers as $rover) {
+            $results[$rover] = $this->fetchPhotos($rover, $page);
+        }
+
+        return $results;
+    }
+
+    // Helper function to fetch photos from NASA API
+    private function fetchPhotos($rover, $page)
     {
         try {
             $response = $this->client->request('GET', "rovers/$rover/photos", [
                 'query' => [
-                    'sol' => 1000, // required param
-                    'page' => $page, // defaults to page 1 to limit to 25
-                    'api_key' => config('services.nasa.api_key'), // retrieve nasa api from .env file
+                    'sol' => 1000,
+                    'page' => $page,
+                    'api_key' => config('services.nasa.api_key'),
                 ]
             ]);
-            return json_decode($response->getBody()->getContents(), true);
+            return json_decode($response->getBody()->getContents(), true)['photos'];
         } catch (GuzzleException $e) {
             return ['error' => 'Failed to fetch data: ' . $e->getMessage()];
         }

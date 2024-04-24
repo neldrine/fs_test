@@ -16,4 +16,3 @@ Route::post('/token', [\App\Http\Controllers\AuthController::class, 'updateToken
 
 // use this endpoint to destroy/log out
 Route::delete('/token', [\App\Http\Controllers\AuthController::class, 'deleteToken']);
-
