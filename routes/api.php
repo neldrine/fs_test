@@ -7,3 +7,6 @@ Route::get('/api', function () {
         'message' => 'test'
     ]);
 });
+
+Route::get('/rover', [\App\Http\Controllers\RoverPhotoController::class, 'index']);
+

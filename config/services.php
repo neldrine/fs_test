@@ -31,4 +31,9 @@ return [
         ],
     ],
 
+    'nasa' => [
+        'api_key' => env('NASA_API_KEY', 'your_default_nasa_api_key'),
+        'base_uri' => 'https://api.nasa.gov/mars-photos/api/v1/',
+    ],
+
 ];
